@@ -2,7 +2,7 @@
 ## Title: SmartPVP|cff00ccff (PvP suite CoA)|r
 ## Notes: Suite de PvP - killboard + stats de partida (BG/arena). Fusao de PvPStatsClassic + meebeegeeStats, portados pro 3.3.5a.
 ## Author: cccarv82 (port/fusion) — orig: Redridge Police (PvPStatsClassic) + GamerLegend (meebeegeeStats)
-## Version: 1.0.0
+## Version: 1.0.1
 ## X-Website: https://github.com/cccarv82/SmartPVP
 ## SavedVariables: PSC_DB, SmartPVPDB
 ## SavedVariablesPerCharacter: mbgstatsDB, mbgstatsDB_Instances, mbgstatsDB_InstanceCounter, mbgstatsDB_Partitions, mbgstatsDB_PartitionCounter, mbgstatsDB_InstancePartitions, mbgstatsDB_ShowArenas, mbgstatsDB_ShowBattlegrounds, mbgstatsDB_CategoryTab, mbgstatsDB_Milestones, mbgstatsDB_RecordingSeasonId

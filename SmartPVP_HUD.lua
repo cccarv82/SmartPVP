@@ -88,31 +88,53 @@ local function startPolling()
     pollLoop()
 end
 
--- Feed do KILLBOARD (abas Kills/Stats/Rivalidades) via msg de honra. NAO mexe no
--- numero do HUD (esse vem do placar = KB real). Aqui e "historico de PvP / quem
--- voce enfrentou" = participacao (inclui assist). Dedup 0.5s por vitima.
+-- Feed do KILLBOARD (abas Kills/Stats/Rivalidades) via msg de honra = "quem voce
+-- enfrentou" (participacao/assist). NAO usa PSC_RegisterPlayerKill de proposito:
+-- aquele dispara multi-kill/streak/ACHIEVEMENTS/SONS, que NAO devem contar honor-kill
+-- (participacao != kill sua). Aqui so registramos a CONTAGEM por vitima (replicando
+-- o minimo do killboard), sem nenhum efeito colateral. Dedup 0.5s por vitima.
 local lastHonorVictim, lastHonorTime = nil, 0
 local function feedKillboard(victim)
     if not victim or victim == "" then return end
-    if not (PSC_RegisterPlayerKill and PSC_GetInfoKeyFromName and PSC_DB and PSC_DB.PlayerInfoCache) then return end
+    if not (PSC_GetInfoKeyFromName and PSC_GetCharacterKey and PSC_DB and PSC_DB.PlayerKillCounts) then return end
     local now = GetTime()
     if victim == lastHonorVictim and (now - lastHonorTime) < 0.5 then return end
     lastHonorVictim, lastHonorTime = victim, now
 
-    local key = PSC_GetInfoKeyFromName(victim)
-    if key and not PSC_DB.PlayerInfoCache[key] then
-        PSC_DB.PlayerInfoCache[key] = { level = 0, class = "UNKNOWN", rank = 0 }
+    local infoKey = PSC_GetInfoKeyFromName(victim)
+    if not infoKey then return end
+    PSC_DB.PlayerInfoCache = PSC_DB.PlayerInfoCache or {}
+    local info = PSC_DB.PlayerInfoCache[infoKey]
+    if not info then
+        info = { level = 0, class = "UNKNOWN", rank = 0 }
+        PSC_DB.PlayerInfoCache[infoKey] = info
     end
-    -- honor-kills sao MUITOS -> suprime anuncios/popups durante o registro (anti-spam)
-    local s = {
-        PSC_DB.EnableKillAnnounceMessages, PSC_DB.ShowKillMilestones,
-        PSC_DB.EnableRecordAnnounceMessages, PSC_DB.EnableMultiKillAnnounceMessages,
+    local level = info.level or 0
+    local nameWithLevel = infoKey .. ":" .. level
+
+    local charKey = PSC_GetCharacterKey()
+    PSC_DB.PlayerKillCounts.Characters = PSC_DB.PlayerKillCounts.Characters or {}
+    local cd = PSC_DB.PlayerKillCounts.Characters[charKey]
+    if not cd then
+        cd = { Kills = {}, Deaths = {}, CurrentKillStreak = 0, HighestKillStreak = 0,
+               HighestMultiKill = 0, GrayKillsCount = 0 }
+        PSC_DB.PlayerKillCounts.Characters[charKey] = cd
+    end
+    cd.Kills = cd.Kills or {}
+    -- replica InitializeKillCountEntryForPlayer + UpdateKillCountEntry (so a contagem)
+    local e = cd.Kills[nameWithLevel]
+    if not e then
+        e = { kills = 0, lastKill = 0, killLocations = {}, rank = 0 }
+        cd.Kills[nameWithLevel] = e
+    end
+    e.kills = e.kills + 1
+    e.lastKill = time()
+    local loc = {
+        zone = (PSC_GetCurrentZoneName and PSC_GetCurrentZoneName()) or "",
+        timestamp = e.lastKill, killNumber = e.kills, playerLevel = level,
     }
-    PSC_DB.EnableKillAnnounceMessages, PSC_DB.ShowKillMilestones = false, false
-    PSC_DB.EnableRecordAnnounceMessages, PSC_DB.EnableMultiKillAnnounceMessages = false, false
-    pcall(PSC_RegisterPlayerKill, victim, PSC_CharacterName, PSC_PlayerGUID)
-    PSC_DB.EnableKillAnnounceMessages, PSC_DB.ShowKillMilestones = s[1], s[2]
-    PSC_DB.EnableRecordAnnounceMessages, PSC_DB.EnableMultiKillAnnounceMessages = s[3], s[4]
+    if PSC_GetPlayerCoordinates then loc.x, loc.y = PSC_GetPlayerCoordinates() end
+    table.insert(e.killLocations, loc)
 end
 
 -- celula "LABEL\nVALOR"
