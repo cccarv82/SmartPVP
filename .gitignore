@@ -1,0 +1,9 @@
+# WoW / editor junk
+*.off
+*.bak
+*.tmp
+Thumbs.db
+.DS_Store
+*.zip
+
+# Keep the repo to addon source only

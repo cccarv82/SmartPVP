@@ -1,0 +1,55 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <!--
+      3.3.5a compat: os addons criam frames com templates que so existem em
+      clientes modernos (Legion+). No WotLK o template inexistente da erro
+      "Couldn't find inherited node" e ABORTA o arquivo .lua inteiro. Definimos
+      stubs virtuais para o CreateFrame achar. Onde o visual importa (janelas),
+      damos um backdrop para nao ficarem invisiveis. Fechar = tecla Escape
+      (os addons botam as janelas em UISpecialFrames).
+    -->
+
+    <!-- Usado como string literal: "BackdropTemplate". SetBackdrop e nativo no
+         3.3.5, entao vazio basta (o addon aplica o proprio backdrop). -->
+    <Frame name="BackdropTemplate" virtual="true"/>
+
+    <!-- Janela padrao de dialogo (title/close/conteudo o addon monta sozinho).
+         Backdrop de DialogBox p/ a janela ser visivel. -->
+    <Frame name="BasicFrameTemplateWithInset" virtual="true">
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background"
+                  edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+            <BackgroundInsets>
+                <AbsInset left="11" right="12" top="12" bottom="11"/>
+            </BackgroundInsets>
+            <TileSize>
+                <AbsValue val="32"/>
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="32"/>
+            </EdgeSize>
+        </Backdrop>
+        <Scripts>
+            <OnLoad>
+                self.TitleText = self:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+                self.TitleText:SetPoint("TOP", self, "TOP", 0, -6)
+                self.CloseButton = CreateFrame("Button", nil, self, "UIPanelCloseButton")
+                self.CloseButton:SetPoint("TOPRIGHT", self, "TOPRIGHT", -3, -3)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <!-- Frame estilo tooltip (borda fina). -->
+    <Frame name="TooltipBorderedFrameTemplate" virtual="true">
+        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background"
+                  edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+            <BackgroundInsets>
+                <AbsInset left="5" right="5" top="5" bottom="5"/>
+            </BackgroundInsets>
+            <TileSize>
+                <AbsValue val="16"/>
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="16"/>
+            </EdgeSize>
+        </Backdrop>
+    </Frame>
+</Ui>

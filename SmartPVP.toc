@@ -1,0 +1,75 @@
+## Interface: 30300
+## Title: SmartPVP|cff00ccff (PvP suite CoA)|r
+## Notes: Suite de PvP - killboard + stats de partida (BG/arena). Fusao de PvPStatsClassic + meebeegeeStats, portados pro 3.3.5a.
+## Author: cccarv82 (port/fusion) — orig: Redridge Police (PvPStatsClassic) + GamerLegend (meebeegeeStats)
+## Version: 1.0.0
+## X-Website: https://github.com/cccarv82/SmartPVP
+## SavedVariables: PSC_DB, SmartPVPDB
+## SavedVariablesPerCharacter: mbgstatsDB, mbgstatsDB_Instances, mbgstatsDB_InstanceCounter, mbgstatsDB_Partitions, mbgstatsDB_PartitionCounter, mbgstatsDB_InstancePartitions, mbgstatsDB_ShowArenas, mbgstatsDB_ShowBattlegrounds, mbgstatsDB_CategoryTab, mbgstatsDB_Milestones, mbgstatsDB_RecordingSeasonId
+
+# ============================================================
+# Compat 3.3.5a (superset) + template BackdropTemplate. PRIMEIRO.
+# ============================================================
+killboard\Compat335.lua
+matches\embeds.xml
+
+# Localizacao (EN/PT, default EN) + tema visual. Define SmartPVP_L / SmartPVP_Theme.
+SmartPVP_Locale.lua
+
+# Resolver de classes custom do server (CoA). Define SmartPVP_ClassInfo.
+ClassInfo.lua
+
+# ============================================================
+# Modulo: killboard (ex-PvPStatsClassic)
+# ============================================================
+killboard\Libs\LibStub\LibStub.lua
+killboard\Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+killboard\Libs\AceComm-3.0\AceComm-3.0.xml
+killboard\Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+killboard\Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+
+killboard\ConfigUI.lua
+killboard\DataHelpers.lua
+killboard\DataStorage.lua
+killboard\DataMigration.lua
+killboard\DeathTracking.lua
+killboard\DebugTools.lua
+killboard\EventHandlers.lua
+killboard\FrameManager.lua
+killboard\KillMilestones.lua
+killboard\PlayerDetailFrame.lua
+killboard\KillsListFrameFilters.lua
+killboard\KillsListFrame.lua
+killboard\NetworkHandler.lua
+killboard\LeaderboardFrame.lua
+killboard\KillsTracking.lua
+killboard\Killstreaks.lua
+killboard\KillStreakPopup.lua
+killboard\MinimapButton.lua
+killboard\SlashCommands.lua
+killboard\Achievements.lua
+killboard\AchievementDefinitionsClassic.lua
+killboard\AchievementDefinitionsTBC.lua
+killboard\AchievementDefinitions.lua
+killboard\AchievementFrame.lua
+killboard\AchievementPopup.lua
+killboard\StatisticsFrame.lua
+killboard\Utils.lua
+killboard\UtilsTest.lua
+killboard\TestData.lua
+killboard\PvPStatsClassic.lua
+
+# ============================================================
+# Modulo: matches (ex-meebeegeeStats). embeds.xml ja carregado acima.
+# ============================================================
+matches\init.lua
+
+# ============================================================
+# Unificador SmartPVP: hub (janela com abas) + comando /spvp
+# ============================================================
+SmartPVP_Hub.lua
+SmartPVP_HUD.lua
+SmartPVP_Nemesis.lua
+SmartPVP_WinRate.lua
+SmartPVP_XP.lua
+SmartPVP.lua
