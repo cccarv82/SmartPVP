@@ -9,6 +9,8 @@ Kill tracking, battleground & arena match history, a live cross-player leaderboa
 > ⚠️ **Built for Conquest of Azeroth (Ascension), client 3.3.5a (Interface 30300).**
 > SmartPVP is a 3.3.5a port + fusion of two great Retail/Classic addons. See [Credits](#-credits--attribution).
 
+> 🧪 **Early release — expect bugs.** SmartPVP is a young community project running on a heavily customized server, so rough edges and occasional bugs are normal. If something breaks or looks wrong, **please [open an issue](https://github.com/cccarv82/SmartPVP/issues)** — that's the only supported way to report problems, and detailed reports (what you did, what happened, any Lua error text) genuinely help it improve.
+
 ---
 
 ## ✨ Features
@@ -114,9 +116,15 @@ This project is a **derivative/community port**. The original addons' code remai
 
 ---
 
-## 🐛 Issues & contributions
+## 🐛 Bugs & contributions
 
-Found a bug or want a feature? [Open an issue](https://github.com/cccarv82/SmartPVP/issues). PRs welcome.
+**Bugs are expected** on a project this young running on a custom server — and reporting them is the best way to help.
+
+- **Report a bug:** [open an issue](https://github.com/cccarv82/SmartPVP/issues/new). Include what you were doing, what happened, and any red Lua error text (`/console scriptErrors 1` shows errors in-game).
+- **Request a feature:** issues are welcome for those too.
+- **Contribute:** PRs are welcome.
+
+Please **do not** report bugs on the original addons' pages — those authors aren't responsible for this port.
 
 ---
 
